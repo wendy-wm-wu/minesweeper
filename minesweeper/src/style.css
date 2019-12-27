@@ -11,8 +11,8 @@ table {
 
 .cell {
   background: #7b7b7b;
-  height: 45px;
-  width: 45px; 
+  height: 60px;
+  width: 60px; 
   border-radius: 5px; 
   text-align: center;
   cursor: pointer;

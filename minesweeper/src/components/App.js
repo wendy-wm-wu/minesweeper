@@ -27,7 +27,7 @@ class App extends Component {
     for (let i = 0; i < 8; i++) {
       board[i] = []; 
       for (let j = 0; j < 8 ; j++) {
-        board[i][j] = { isBomb: false, reveal: false, display: null }; 
+        board[i][j] = { isBomb: false, reveal: false, display: null, isFlagged: false }; 
       }
     }
     return board; 
@@ -97,6 +97,57 @@ class App extends Component {
       count += board[row + 1][col + 1].isBomb ? 1 : 0; 
     }
     board[row][col].display = count.toString(); 
+  }
+
+  countFlags = () => {
+    let board = this.state.board;
+    let count = 0;
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        if (board[i][j].isFlagged) {
+          count++;
+        }
+      }
+    }
+    return count; 
+  }
+
+  countHiddenCells = () => {
+    let board = this.state.board; 
+    let count = 0; 
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        if (!board[i][j].reveal) {
+          count++; 
+        }
+      }
+    }
+    return count; 
+  }
+
+  play = (row, col) => {
+    let board = this.state.board;
+    if (board[row][col].reveal) return null; 
+
+    if (board[row][col].isBomb) {
+      this.setState({ board, gameOver: true, message: "Game over. You lost." }); 
+      this.revealBoard(); 
+    } else {
+      //TODO: reveal if empty cell 
+    }
+
+    board[row][col].reveal = true;
+    board[row][col].isFlaged = false; 
+  }
+
+  revealBoard = () => {
+    let board = this.state.board; 
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        board[i][j].reveal = true; 
+      }
+    }
+    this.setState({ board }); 
   }
 
   render() {
